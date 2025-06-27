@@ -2,6 +2,8 @@
 
 #include <string>
 #include <chrono>
+#include <iostream>
+#include <conio.h>  // for _kbhit and _getch
 
 class Game
 {
