@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <chrono>
 
 class Game
 {
@@ -8,7 +9,7 @@ private:
 	// Global private variables (Attributes) to use in different member functions
 	bool isRunning;
 
-	//add timer?
+	std::chrono::steady_clock::time_point startTime;
 
 public:
 	// Constructor/Destructor
@@ -22,6 +23,7 @@ public:
 	void ProcessInput();
 	void Update();
 	void Output();
+	void GetTime();
 	void Stop();
 
 };
