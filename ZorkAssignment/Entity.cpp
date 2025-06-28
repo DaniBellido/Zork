@@ -1,8 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity(EntityType t, const std::string& n) : type(t), name(n) {}
+Entity::Entity(EntityType t, const std::string& n, const std::string& d) : type(t), name(n), description(d) {}
 
-Entity::Entity(EntityType t, const std::string& n, const std::vector<Entity*>& items) : type(t), name(n), inventory(items) {}
+Entity::Entity(EntityType t, const std::string& n, const std::string& d, const std::vector<Entity*>& items) : type(t), name(n), description(d), inventory(items) {}
 
 Entity::~Entity() 
 {

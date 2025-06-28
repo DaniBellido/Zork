@@ -1,0 +1,33 @@
+#pragma once
+#include "Entity.h"
+
+struct Stats {
+	int health;
+	int power;
+	bool isAlive() const { return health > 0; }
+};
+
+class Creature : public Entity
+{
+public:
+	//Atributes inherited from Entity
+	/*type
+	name
+	description
+	inventory*/
+	
+	Stats stats;
+
+	Creature(EntityType t, const std::string& n, const std::string& d,
+		const std::vector<Entity*>& items, int health, int power);
+
+	~Creature();
+
+	//Methods
+	void TakeDamage(int amount);
+	void Heal(int amount);
+	void DropInventory();
+	void OnDeath();
+	void Update() override; 
+};
+

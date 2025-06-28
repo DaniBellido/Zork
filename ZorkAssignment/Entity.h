@@ -20,14 +20,15 @@ public:
 	//Atributes
 	EntityType type;
 	std::string name;
+	std::string description;
 	std::vector<Entity*> inventory;
 
 
 
 	//Constructor 1: Type, name. For entities with no inventory
-	Entity(EntityType t, const std::string& n);
+	Entity(EntityType t, const std::string& n, const std::string& d);
 	// Constructor 2: Type, name, and initial inventory
-	Entity(EntityType t, const std::string& n, const std::vector<Entity*>& items);
+	Entity(EntityType t, const std::string& n, const std::string& d, const std::vector<Entity*>& items);
 
 	///Destructor
 	virtual ~Entity();
