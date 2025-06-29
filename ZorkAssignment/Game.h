@@ -4,6 +4,8 @@
 #include <chrono>
 #include <iostream>
 #include <conio.h>  // for _kbhit and _getch
+#include "Creature.h"
+//add header files for all entities 
 
 class Game
 {

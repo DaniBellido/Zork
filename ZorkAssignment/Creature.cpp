@@ -2,7 +2,7 @@
 
 
 Creature::Creature(EntityType t, const std::string& n, const std::string& d,
-	const std::vector<Entity*>& items, int health, int power) : Entity(t, n, d, items) 
+	const std::vector<Entity*>& items, int health, int power, int defense, int luck) : Entity(t, n, d, items) 
 {
 	type = t;
 	name = n;
@@ -11,6 +11,8 @@ Creature::Creature(EntityType t, const std::string& n, const std::string& d,
 
 	stats.health = health;
 	stats.power = power;
+	stats.defense = defense;
+	stats.luck = luck;
 }
 
 Creature::~Creature()

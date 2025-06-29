@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Entity">
       <UniqueIdentifier>{5ab12e28-cb46-4202-ae90-732b9d357d23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Creature">
+      <UniqueIdentifier>{397b93b1-21ab-4e26-8bb5-1d1e9794c2a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{6a36fc80-dd1a-4b8a-be36-c381d046c810}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZorkAssignment.cpp">
@@ -30,6 +36,12 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>Source Files\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -37,6 +49,12 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Source Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Source Files\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Source Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

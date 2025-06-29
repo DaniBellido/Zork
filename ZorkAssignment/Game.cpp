@@ -1,5 +1,8 @@
 #include "Game.h"
 
+
+Creature* creature;
+
 Game::Game()
 {
 	isRunning = false;
@@ -22,8 +25,12 @@ void Game::Initialize()
 
 void Game::Setup()
 {
-	//TODO: Create entities here
+	//TODO: Create the initial state of the game here
 
+	 creature = new Creature(ENEMY, "troll", "It's an ugly troll.", {}, 100, 10, 2, 0);
+
+	
+	
 }
 
 void Game::ProcessInput()
@@ -41,7 +48,9 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-	ProcessInput();
+	ProcessInput(); //This must be PlayerInput implemented in Player's class
+
+	creature->Heal(10);
 }
 
 void Game::Output()

@@ -4,6 +4,8 @@
 struct Stats {
 	int health;
 	int power;
+	int defense;
+	int luck;
 	bool isAlive() const { return health > 0; }
 };
 
@@ -19,7 +21,7 @@ public:
 	Stats stats;
 
 	Creature(EntityType t, const std::string& n, const std::string& d,
-		const std::vector<Entity*>& items, int health, int power);
+		const std::vector<Entity*>& items, int health, int power, int armor, int luck);
 
 	~Creature();
 
