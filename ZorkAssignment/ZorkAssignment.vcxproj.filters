@@ -25,6 +25,15 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{6a36fc80-dd1a-4b8a-be36-c381d046c810}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Room">
+      <UniqueIdentifier>{0d6817ae-7df5-4169-98ee-d36f97b85f0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Item">
+      <UniqueIdentifier>{3d5bad16-c502-4d32-b536-27ef2e7b7327}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Door">
+      <UniqueIdentifier>{2e4f2fa5-59f9-42d0-8270-714df3c405fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZorkAssignment.cpp">
@@ -40,7 +49,16 @@
       <Filter>Source Files\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Source Files\Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +73,15 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Source Files\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Source Files\Room</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

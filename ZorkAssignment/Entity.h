@@ -45,5 +45,7 @@ public:
 
 	void ListInventory();
 
+	void PrintDescription();
+
 };
 

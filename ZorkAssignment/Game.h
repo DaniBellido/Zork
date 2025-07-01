@@ -12,6 +12,7 @@ class Game
 private:
 	// Global private variables (Attributes) to use in different member functions
 	bool isRunning;
+	std::vector<Entity*> entities;
 
 	std::chrono::steady_clock::time_point startTime;
 

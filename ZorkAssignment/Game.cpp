@@ -1,7 +1,9 @@
 #include "Game.h"
+#include "Room.h"
+#include "Player.h"
 
-
-Creature* creature;
+std::vector<Room*> pRooms;
+Player* pPlayer;
 
 Game::Game()
 {
@@ -26,9 +28,11 @@ void Game::Initialize()
 void Game::Setup()
 {
 	//TODO: Create the initial state of the game here
+	//entities.push_back();
+	pRooms.push_back(new Room(EntityType::ROOM, "Castle", "a huge old caslte with a massive gate."));
+	pRooms.push_back(new Room(EntityType::ROOM, "Patio", "a wide patio surrended by high walls and some doors."));
 
-	 creature = new Creature(ENEMY, "troll", "It's an ugly troll.", {}, 100, 10, 2, 0);
-
+	pRooms[0]->PrintDescription();
 	
 	
 }
@@ -50,7 +54,7 @@ void Game::Update()
 {
 	ProcessInput(); //This must be PlayerInput implemented in Player's class
 
-	creature->Heal(10);
+	//creature->Heal(10);
 }
 
 void Game::Output()

@@ -1,8 +1,7 @@
 #include "Creature.h"
 
 
-Creature::Creature(EntityType t, const std::string& n, const std::string& d,
-	const std::vector<Entity*>& items, int health, int power, int defense, int luck) : Entity(t, n, d, items) 
+Creature::Creature(EntityType t, const std::string& n, const std::string& d, const std::vector<Entity*>& items, int health, int power, int defense, int luck) : Entity(t, n, d, items) 
 {
 	type = t;
 	name = n;
