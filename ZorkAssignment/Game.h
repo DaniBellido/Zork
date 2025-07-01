@@ -5,7 +5,10 @@
 #include <iostream>
 #include <conio.h>  // for _kbhit and _getch
 #include "Creature.h"
-//add header files for all entities 
+#include "Room.h"
+#include "Player.h"
+#include "Door.h"
+
 
 class Game
 {
@@ -30,6 +33,7 @@ public:
 	void Output();
 	void GetTime();
 	void Stop();
+	void ConnectRooms(Room* from, Room* to, Direction dir, bool bidirectional = true);
 
 };
 

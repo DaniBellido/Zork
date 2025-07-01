@@ -34,7 +34,7 @@ void Player::ParseCommand(const std::string& input)
 		for (Door* door : currentRoom->doors) {
 			if (door->GetDirection() == dir) {
 				MoveTo(door->GetDestination());
-				std::cout << "You move " << argument << ".\n";
+				std::cout << "You moved to " << argument << ".\n";
 				currentRoom->PrintDescription();
 				moved = true;
 				break;
@@ -63,21 +63,29 @@ void Player::ParseCommand(const std::string& input)
 
 void Player::Look(Room* currentRoom) 
 {
-	std::cout << "You are in the " << currentRoom->name << "\n";
+	std::cout << "You are in " << currentRoom->name << "\n";
 	currentRoom->ListInventory();
+
+	if (currentRoom->name == "The Castle Gate") 
+	{
+		std::cout << "YAHOO!\n";
+	}
 }
 
 void Player::PrintMap() 
 {
 	std::cout << R"(
-+---------+
-|  Patio  |
-+----+----+
-     |     
-     |     
-+----+----+
-|  Castle |
-+---------+
+             +--------+    +---+----+ +---+----+
+             | Garden |    |Barracks|-|Latrines|
+             +---+----+    +---+----+ +---+----+
+                 |             |
++----------+ +----------+ +----------+
+|  Stable  |-|  Patio   |-|  Armory  |
++----------+ +----------+ +----------+
+                  |
+             +----+----+
+             |Cstl Gate|
+             +---------+
 )" << std::endl;
 }
 

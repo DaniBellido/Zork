@@ -42,5 +42,5 @@ void Entity::ListInventory()
 
 void Entity::PrintDescription()
 {
-	std::cout << "It's a " << name << ": " << description << std::endl;
+	std::cout << "It's " << name << ": " << description << std::endl;
 }
