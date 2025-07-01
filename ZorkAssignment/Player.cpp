@@ -56,6 +56,28 @@ void Player::ParseCommand(const std::string& input)
 	else if (command == "stats") {
 		PrintStats();
 	}
+	else if (command == "take") {
+		for (Entity* e : currentRoom->inventory) {
+			if (e->type == EntityType::ITEM && e->name == argument) {
+				AddToInventory(e);
+				currentRoom->RemoveFromInventory(e);
+				std::cout << "You picked up the " << e->name << ".\n";
+				return;
+			}
+		}
+		std::cout << "There is no such item here.\n";
+	}
+	else if (command == "drop") {
+		for (Entity* e : inventory) {
+			if (e->type == EntityType::ITEM && e->name == argument) {
+				RemoveFromInventory(e);
+				currentRoom->AddToInventory(e);
+				std::cout << "You dropped the " << e->name << ".\n";
+				return;
+			}
+		}
+		std::cout << "You don't have that item.\n";
+	}
 	else {
 		std::cout << "I don't understand that command.\n";
 	}

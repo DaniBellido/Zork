@@ -8,6 +8,7 @@
 #include "Room.h"
 #include "Player.h"
 #include "Door.h"
+#include "Item.h"
 
 
 class Game

@@ -44,8 +44,14 @@ void Game::Setup()
 	ConnectRooms(pRooms[4], pRooms[5], Direction::NORTH);   // Armory - Barracks
 	ConnectRooms(pRooms[5], pRooms[6], Direction::EAST);   // Barracks - Latrines
 
-	//TODO: Populate the rooms with items
 
+	//Creating Items
+	Item* sword = new Item("sword", "An old rusty sword. Might still be useful.");
+	Item* stone = new Item("stone", "A tiny stone. Might still be useful.");
+
+	//TODO: Populate the rooms with items
+	pRooms[0]->AddToInventory(sword);
+	pRooms[0]->AddToInventory(stone);
 
 	//TODO: Populate the rooms with creatures
 
