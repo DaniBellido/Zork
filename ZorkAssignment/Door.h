@@ -15,7 +15,7 @@ class Door : public Entity
 public:
     // Constructor
     Door(Direction dir, Room* sourceRoom, Room* destinationRoom, bool bidirectional = true)
-        : Entity(EntityType::DOOR, name, description),  // llamada al constructor base
+        : Entity(EntityType::DOOR, "Door", "A wooden door leading to somewhere"),
         direction(dir), source(sourceRoom), destination(destinationRoom), bidirectional(bidirectional)
     {
     }
@@ -29,6 +29,8 @@ public:
     void SetDirection(Direction dir) { direction = dir; }
     void SetSource(Room* room) { source = room; }
     void SetDestination(Room* room) { destination = room; }
+
+    void Update() override {};
 
 public:
     Direction direction;

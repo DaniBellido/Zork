@@ -1,8 +1,10 @@
 #include "Game.h"
 #include "Room.h"
 #include "Player.h"
+#include "Door.h"
 
 std::vector<Room*> pRooms;
+std::vector<Door*> pDoors;
 Player* pPlayer;
 
 Game::Game()
@@ -27,34 +29,52 @@ void Game::Initialize()
 
 void Game::Setup()
 {
-	//TODO: Create the initial state of the game here
-	//entities.push_back();
-	pRooms.push_back(new Room(EntityType::ROOM, "Castle", "a huge old caslte with a massive gate."));
-	pRooms.push_back(new Room(EntityType::ROOM, "Patio", "a wide patio surrended by high walls and some doors."));
+	
+	pRooms.push_back(new Room(EntityType::ROOM, "Castle", "a huge old castle with a massive gate."));
+	pRooms.push_back(new Room(EntityType::ROOM, "Patio", "a wide patio surrounded by high walls and some doors."));
+
+	// Crear puerta entre Castle y Patio
+	Door* door = new Door(Direction::NORTH, pRooms[0], pRooms[1], true);
+	pDoors.push_back(door);
+	pRooms[0]->doors.push_back(door);
+
+	// Si es bidireccional, crear la inversa
+	if (door->bidirectional) {
+		Door* reverseDoor = new Door(Direction::SOUTH, pRooms[1], pRooms[0], true);
+		pDoors.push_back(reverseDoor);
+		pRooms[1]->doors.push_back(reverseDoor);
+	}
 
 	pRooms[0]->PrintDescription();
-	
+
+	Stats playerStats = { 100, 10, 5, 3 };
+	pPlayer = new Player("Hero", "The brave adventurer", pRooms[0], playerStats);
+	pPlayer->PrintStats();
+
 	
 }
 
 void Game::ProcessInput()
 {
-	if (_kbhit()) {
-		int key = _getch();
-		if (key == 27) { // ESC key
-			std::cout << "ESC pressed. Exiting game loop.\n";
-			GetTime();
-			Stop();  // Exits the loop
-		}
+	std::string input;
+	std::cout << "\n> ";
+	std::getline(std::cin, input);
+
+	if (input == "exit" || input == "quit") {
+		std::cout << "Exiting game.\n";
+		GetTime();
+		Stop();
+		return;
 	}
+
+	pPlayer->ParseCommand(input);
 }
 
 
 void Game::Update()
 {
 	ProcessInput(); //This must be PlayerInput implemented in Player's class
-
-	//creature->Heal(10);
+	//delete some entities
 }
 
 void Game::Output()
@@ -79,6 +99,7 @@ void Game::Run()
 void Game::Stop()
 {
 	isRunning = false;
+	//delete entities
 }
 
 void Game::GetTime() 

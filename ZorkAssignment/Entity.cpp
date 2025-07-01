@@ -16,7 +16,6 @@ void Entity::AddToInventory(Entity* e)
 
 void Entity::RemoveFromInventory(Entity* e) 
 {
-
 	// std::remove moves all elements equal to 'e' to the end of the vector
 	// and returns an iterator to the "new end" of the range.
 	auto it = std::remove(inventory.begin(), inventory.end(), e);
@@ -27,7 +26,6 @@ void Entity::RemoveFromInventory(Entity* e)
 		// This call shortens the vector by removing all elements from 'it' to the end.
 		inventory.erase(it, inventory.end());
 	}
-
 }
 
 void Entity::ListInventory()
@@ -42,7 +40,7 @@ void Entity::ListInventory()
 	}
 }
 
-void Entity::PrintDescription() 
+void Entity::PrintDescription()
 {
 	std::cout << "It's a " << name << ": " << description << std::endl;
 }
