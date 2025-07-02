@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Item.h"
 
 Player::Player(const std::string& name, const std::string& description, Room* startRoom, const Stats& playerStats)
 	: Creature(EntityType::PLAYER, name, description, {},
@@ -56,9 +57,17 @@ void Player::ParseCommand(const std::string& input)
 	else if (command == "stats") {
 		PrintStats();
 	}
-	else if (command == "take") {
+	else if (command == "pick") {
 		for (Entity* e : currentRoom->inventory) {
 			if (e->type == EntityType::ITEM && e->name == argument) {
+				Item* item = dynamic_cast<Item*>(e);
+				if (item) 
+				{
+					if (!item->isPortable) {
+						std::cout << "You can't carry the " << item->name << ".\n";
+						return;
+					}
+				}
 				AddToInventory(e);
 				currentRoom->RemoveFromInventory(e);
 				std::cout << "You picked up the " << e->name << ".\n";
@@ -78,7 +87,80 @@ void Player::ParseCommand(const std::string& input)
 		}
 		std::cout << "You don't have that item.\n";
 	}
-	else {
+	else if (command == "open") {
+		if (argument == "chest") {
+			for (Entity* e : currentRoom->inventory) {
+				if (e->type == EntityType::ITEM && e->name == "chest") {
+					if (e->inventory.empty()) {
+						std::cout << "The chest is empty.\n";
+					}
+					else {
+						std::cout << "The chest contains:\n";
+						for (Entity* item : e->inventory) {
+							std::cout << "- " << item->name << std::endl;
+						}
+					}
+					return;
+				}
+			}
+			std::cout << "There is no chest here.\n";
+		}
+		else {
+			std::cout << "You can't open that.\n";
+		}
+	}
+	else if (command == "store") {
+		if (argument.empty()) {
+			std::cout << "Store what?\n";
+			return;
+		}
+
+		// Look for the item in the player's inventory
+		Entity* itemToStore = nullptr;
+		for (Entity* e : inventory) {
+			if (e->name == argument && e->type == EntityType::ITEM) {
+				itemToStore = e;
+				break;
+			}
+		}
+
+		if (!itemToStore) {
+			std::cout << "You don't have that item.\n";
+			return;
+		}
+
+		// Look for the chest in the room
+		for (Entity* e : currentRoom->inventory) {
+			if (e->name == "chest" && e->type == EntityType::ITEM) {
+				e->inventory.push_back(itemToStore);
+				RemoveFromInventory(itemToStore);
+				std::cout << "You stored the " << argument << " in the chest.\n";
+				return;
+			}
+		}
+
+		std::cout << "There is no chest here.\n";
+	}
+	else if (command == "take") {
+		for (Entity* e : currentRoom->inventory) {
+			if (e->type == EntityType::ITEM && e->name == "chest") {
+				// Found chest
+				for (Entity* item : e->inventory) {
+					if (item->name == argument) {
+						e->RemoveFromInventory(item);
+						AddToInventory(item);
+						std::cout << "You took the " << item->name << " from the chest.\n";
+						return;
+					}
+				}
+				std::cout << "The chest doesn't contain that item.\n";
+				return;
+			}
+		}
+		std::cout << "There is no chest here.\n";
+		}
+	else 
+	{
 		std::cout << "I don't understand that command.\n";
 	}
 }

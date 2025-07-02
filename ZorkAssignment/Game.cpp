@@ -46,15 +46,18 @@ void Game::Setup()
 
 
 	//Creating Items
-	Item* sword = new Item("sword", "An old rusty sword. Might still be useful.");
-	Item* stone = new Item("stone", "A tiny stone. Might still be useful.");
+	Item* sword = new Item("sword", "An old rusty sword. Might still be useful.", false, true);
+	Item* stone = new Item("stone", "A tiny stone. Might still be useful.", false, true);
+	Item* chest = new Item("chest", "A wooden chest to store items.", true, false);
 
-	//TODO: Populate the rooms with items
+
+	//Populate the rooms with items
 	pRooms[0]->AddToInventory(sword);
 	pRooms[0]->AddToInventory(stone);
+	pRooms[0]->AddToInventory(chest);
 
 	//TODO: Populate the rooms with creatures
-
+	
 
 	//Introduction to the adventure
 	pRooms[0]->PrintDescription();
