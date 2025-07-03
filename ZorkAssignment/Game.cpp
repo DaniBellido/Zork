@@ -3,7 +3,15 @@
 
 std::vector<Room*> pRooms;
 std::vector<Door*> pDoors;
+std::vector<Creature*> pEnemy;
 Player* pPlayer;
+
+const std::string RESET = "\033[0m";
+const std::string RED = "\033[31m";
+const std::string GREEN = "\033[32m";
+const std::string YELLOW = "\033[33m";
+const std::string BLUE = "\033[34m";
+const std::string WHITE = "\033[37m";
 
 Game::Game()
 {
@@ -53,11 +61,14 @@ void Game::Setup()
 
 	//Populate the rooms with items
 	pRooms[0]->AddToInventory(sword);
-	pRooms[0]->AddToInventory(stone);
+	//pRooms[0]->AddToInventory(stone);
 	pRooms[0]->AddToInventory(chest);
 
 	//TODO: Populate the rooms with creatures
+
+	pEnemy.push_back(new Creature(EntityType::ENEMY,"soldier","a weak soldier.",{stone}, 25, 2, 1, 1));
 	
+	pRooms[0]->AddToInventory(pEnemy[0]);
 
 	//Introduction to the adventure
 	pRooms[0]->PrintDescription();
@@ -68,7 +79,7 @@ void Game::Setup()
 	
 }
 
-void Game::ProcessInput()
+void Game::Update()
 {
 	std::string input;
 	std::cout << "\n> ";
@@ -81,20 +92,7 @@ void Game::ProcessInput()
 		return;
 	}
 
-	pPlayer->ParseCommand(input);
-}
-
-
-void Game::Update()
-{
-	ProcessInput(); //This must be PlayerInput implemented in Player's class
-	//delete some entities
-}
-
-void Game::Output()
-{
-	
-
+	pPlayer->Update(input);
 }
 
 void Game::Run()
@@ -105,7 +103,6 @@ void Game::Run()
 	while (isRunning)
 	{
 		Update();
-		Output();
 
 	}
 }

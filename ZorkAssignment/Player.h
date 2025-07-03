@@ -12,16 +12,23 @@ public:
 
 
 	//all the actions player can do
-	void Loot();
 	void PrintMap();
 	void PrintStats();
 	void Look(Room* currentRoom);
+	void Movement(std::string argument);
+	void Check(std::string argument);
+	void Pick(std::string argument);
+	void Drop(std::string argument);
+	void Open(std::string argument);
+	void Store(std::string argument);
+	void Take(std::string argument);
 
 	void MoveTo(Room* destination);
 
-	void Update() override;
+	void Update(const std::string& input);
 	
 	void ParseCommand(const std::string& input);
+
 
 
 };

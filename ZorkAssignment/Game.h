@@ -29,9 +29,7 @@ public:
 	void Initialize();
 	void Run();
 	void Setup();
-	void ProcessInput();
 	void Update();
-	void Output();
 	void GetTime();
 	void Stop();
 	void ConnectRooms(Room* from, Room* to, Direction dir, bool bidirectional = true);
