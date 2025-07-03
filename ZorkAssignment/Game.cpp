@@ -6,12 +6,12 @@ std::vector<Door*> pDoors;
 std::vector<Creature*> pEnemy;
 Player* pPlayer;
 
-//const std::string RESET = "\033[0m";
-//const std::string RED = "\033[31m";
-//const std::string GREEN = "\033[32m";
-//const std::string YELLOW = "\033[33m";
-//const std::string BLUE = "\033[34m";
-//const std::string WHITE = "\033[37m";
+const std::string RESET = "\033[0m";
+const std::string RED = "\033[31m";
+const std::string GREEN = "\033[32m";
+const std::string YELLOW = "\033[33m";
+const std::string BLUE = "\033[34m";
+const std::string WHITE = "\033[37m";
 
 Game::Game()
 {
@@ -57,12 +57,19 @@ void Game::Setup()
 	Item* sword = new Item("sword", "An old rusty sword. Might still be useful.", false, true);
 	Item* stone = new Item("stone", "A tiny stone. Might still be useful.", false, true);
 	Item* chest = new Item("chest", "A wooden chest to store items.", true, false);
+	Item* key = new Item("key", "A golden key with a weird incription. What would it open?", false, true);
 
+	Item* bigChest = new Item("big chest", "A large locked chest. You might need a key.", true, false);
+	bigChest->isLocked = true;
 
 	//Populate the rooms with items
 	pRooms[0]->AddToInventory(sword);
 	//pRooms[0]->AddToInventory(stone);
 	pRooms[0]->AddToInventory(chest);
+	pRooms[0]->AddToInventory(key);
+	pRooms[0]->AddToInventory(bigChest);
+
+	
 
 	//TODO: Populate the rooms with creatures
 
@@ -77,6 +84,7 @@ void Game::Setup()
 	//Player Start Point
 	Stats playerStats = { 100, 10, 5, 3 };
 	pPlayer = new Player("Hero", "The brave adventurer", pRooms[0], playerStats);
+	pPlayer->game = this; 
 	
 }
 
@@ -105,7 +113,14 @@ void Game::Run()
 	{
 		Update();
 
+		if (isGameOver) 
+		{
+			CleanUp();
+			GameOver();
+		}
 	}
+
+
 }
 
 void Game::Stop()
@@ -123,7 +138,7 @@ void Game::GetTime()
 	int minutes = (elapsed % 3600) / 60;
 	int seconds = elapsed % 60;
 
-	std::cout << "Played time: "
+	std::cout << ""
 		<< hours << "h "
 		<< minutes << "m "
 		<< seconds << "s\n";
@@ -150,4 +165,51 @@ void Game::ConnectRooms(Room* from, Room* to, Direction dir, bool bidirectional)
         pDoors.push_back(reverseDoor);
         to->doors.push_back(reverseDoor);
     }
+}
+
+void Game::CleanUp() 
+{
+
+	for (Room* room : pRooms)
+		delete room;
+	pRooms.clear();
+
+	
+	for (Door* door : pDoors)
+		delete door;
+	pDoors.clear();
+
+	
+	for (Creature* enemy : pEnemy)
+		delete enemy;
+	pEnemy.clear();
+
+
+	delete pPlayer;
+	pPlayer = nullptr;
+
+	isRunning = false;
+
+}
+
+void Game::GameOver()
+{
+	system("cls");
+
+	std::cout << RED << "You unlocked the chest and found the stolen treasure.\n" << YELLOW;
+
+	std::cout << R"(
+  _____                         ____                 
+ / ____|                       / __ \                
+| |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
+| | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
+| |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
+ \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
+
+                                                                                  
+)" << std::endl;
+
+	std::cout << GREEN << "GAME COMPLETED IN: ";
+	GetTime();
+	std::cout << WHITE;
 }

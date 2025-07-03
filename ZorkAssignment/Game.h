@@ -13,9 +13,10 @@
 
 class Game
 {
-private:
+public:
 	// Global private variables (Attributes) to use in different member functions
 	bool isRunning;
+	bool isGameOver = false;
 	std::vector<Entity*> entities;
 
 	std::chrono::steady_clock::time_point startTime;
@@ -33,6 +34,8 @@ public:
 	void GetTime();
 	void Stop();
 	void ConnectRooms(Room* from, Room* to, Direction dir, bool bidirectional = true);
+	void GameOver();
+	void CleanUp();
 
 };
 

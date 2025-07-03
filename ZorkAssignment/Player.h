@@ -1,13 +1,17 @@
 #pragma once
 #include "Creature.h"
 #include "Room.h"
+#include "Game.h"
 #include <sstream>
+
+class Game;
 
 class Player : public Creature
 {
 public:
-	Room* currentRoom;
 
+	Game* game;
+	Room* currentRoom;
 	Player(const std::string& name, const std::string& description, Room* startRoom, const Stats& playerStats);
 
 

@@ -17,7 +17,8 @@ void Player::ParseCommand(const std::string& input)
 {
 	std::istringstream iss(input);
 	std::string command, argument;
-	iss >> command >> argument;
+	iss >> command;
+	std::getline(iss >> std::ws, argument);
 
 	if (command == "go") {
 		Movement(argument);
@@ -67,11 +68,6 @@ void Player::Look(Room* currentRoom)
 {
 	std::cout << "You are in " << currentRoom->name << "\n";
 	currentRoom->ListInventory();
-
-	if (currentRoom->name == "The Castle Gate") 
-	{
-		std::cout << "YAHOO!\n";
-	}
 }
 
 void Player::PrintMap() 
@@ -196,25 +192,56 @@ void Player::Drop(std::string argument)
 
 void Player::Open(std::string argument)
 {
-	if (argument == "chest") {
-		for (Entity* e : currentRoom->inventory) {
-			if (e->type == EntityType::ITEM && e->name == "chest") {
-				if (e->inventory.empty()) {
-					std::cout << "The chest is empty.\n";
-				}
-				else {
-					std::cout << "The chest contains:\n";
-					for (Entity* item : e->inventory) {
-						std::cout << "- " << item->name << std::endl;
-					}
-				}
+	bool found = false;
+
+	for (Entity* e : currentRoom->inventory) {
+		if (e->type == EntityType::ITEM && e->name == argument) {
+			Item* item = dynamic_cast<Item*>(e);
+			if (!item) continue;
+
+			if (!item->isContainer) {
+				std::cout << "You can't open that.\n";
 				return;
 			}
+
+			if (item->isLocked) {
+				
+				bool hasKey = false;
+				for (Entity* i : inventory) {
+					if (i->name == "key") {
+						hasKey = true;
+						break;
+					}
+				}
+
+				if (!hasKey) {
+					std::cout << "It's locked. You need a key.\n";
+					return;
+				}
+
+				item->isLocked = false;
+				std::cout << "You unlocked the " << item->name << " with the key.\n";
+				game->isGameOver = true;
+				
+			}
+
+			if (item->inventory.empty()) {
+				std::cout << "The " << item->name << " is empty.\n";
+			}
+			else {
+				std::cout << "The " << item->name << " contains:\n";
+				for (Entity* contained : item->inventory) {
+					std::cout << "- " << contained->name << "\n";
+				}
+			}
+
+			found = true;
+			break;
 		}
-		std::cout << "There is no chest here.\n";
 	}
-	else {
-		std::cout << "You can't open that.\n";
+
+	if (!found) {
+		std::cout << "There's nothing like that here.\n";
 	}
 }
 
