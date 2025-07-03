@@ -16,12 +16,17 @@ Creature::Creature(EntityType t, const std::string& n, const std::string& d, con
 
 Creature::~Creature()
 {
-	std::cout << "Creature Destructor called!\n";
+	//std::cout << "Creature Destructor called!\n";
 }
 
 void Creature::TakeDamage(int amount) 
 {
 	stats.health -= amount;
+	std::cout << name << " took " << amount << " damage. Health now " << stats.health << "\n";
+
+	if (stats.health <= 0) {
+		OnDeath();
+	}
 }
 
 void Creature::Heal(int amount)
@@ -31,11 +36,26 @@ void Creature::Heal(int amount)
 
 void Creature::DropInventory()
 {
-
+	if (location) {
+		std::cout << name << " dropped items:\n";
+		for (Entity* item : inventory) {
+			std::cout << " - " << item->name << "\n";
+			location->AddToInventory(item);
+		}
+		inventory.clear();
+	}
 }
 
 void Creature::OnDeath()
 {
+	std::cout << name << " has died.\n";
+	DropInventory();
+
+	if (location) {
+		location->RemoveFromInventory(this); // remove the creature from the room
+	}
+
+
 	
 }
 

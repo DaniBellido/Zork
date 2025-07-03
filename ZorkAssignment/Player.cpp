@@ -54,7 +54,9 @@ void Player::ParseCommand(const std::string& input)
 		Take(argument);
 	
 	}
-		
+	else if (command == "attack") {
+		Attack(argument);
+	}
 	else 
 	{
 		std::cout << "I don't understand that command.\n";
@@ -215,6 +217,7 @@ void Player::Open(std::string argument)
 		std::cout << "You can't open that.\n";
 	}
 }
+
 void Player::Store(std::string argument)
 {
 	if (argument.empty()) {
@@ -248,6 +251,7 @@ void Player::Store(std::string argument)
 
 	std::cout << "There is no chest here.\n";
 }
+
 void Player::Take(std::string argument) 
 {
 	for (Entity* e : currentRoom->inventory) {
@@ -266,4 +270,42 @@ void Player::Take(std::string argument)
 		}
 	}
 	std::cout << "There is no chest here.\n";
+}
+
+void Player::Attack(const std::string& targetName)
+{
+	for (Entity* e : currentRoom->inventory) {
+		if (e->type == EntityType::ENEMY) {
+			Creature* enemy = dynamic_cast<Creature*>(e);
+			if (enemy && (enemy->name == targetName || targetName.empty())) {
+				int damage = stats.power - enemy->stats.defense;
+				if (damage < 0) damage = 0;
+
+				std::cout << "You attack the " << enemy->name << " doing " << damage << " damage!\n";
+				enemy->TakeDamage(damage);
+
+
+				if (enemy->stats.health > 0) {
+					std::cout << "The " << enemy->name << " has " << enemy->stats.health << " HP left.\n";
+
+					int retaliation = enemy->stats.power - stats.defense;
+					if (retaliation < 0) retaliation = 0;
+					stats.health -= retaliation;
+
+					std::cout << "The " << enemy->name << " strikes back doing " << retaliation << " damage!\n";
+					if (stats.health > 0)
+						std::cout << "You have " << stats.health << " HP left.\n";
+					else
+						std::cout << "You have died...\n";
+				}
+				if (!enemy->stats.isAlive()) {
+					std::cout << "You have defeated the " << enemy->name << "!\n";
+
+					delete enemy;
+				}
+				return;
+			}
+		}
+	}
+	std::cout << "There's no such enemy here.\n";
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "Room.h"
 
 struct Stats {
 	int health;
@@ -19,7 +20,7 @@ public:
 	inventory*/
 	
 	Stats stats;
-
+	Room* location;
 	Creature(EntityType t, const std::string& n, const std::string& d, const std::vector<Entity*>& items, int health, int power, int armor, int luck);
 
 	~Creature();

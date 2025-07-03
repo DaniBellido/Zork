@@ -11,7 +11,7 @@ Room::Room(EntityType t, const std::string& n, const std::string& d) : Entity(t,
 
 Room::~Room()
 {
-    std::cout << "Entity Destructor called!\n";
+    //std::cout << "Entity Destructor called!\n";
 }
 
 

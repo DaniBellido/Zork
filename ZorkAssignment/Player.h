@@ -22,7 +22,7 @@ public:
 	void Open(std::string argument);
 	void Store(std::string argument);
 	void Take(std::string argument);
-
+	void Attack(const std::string& targetName);
 	void MoveTo(Room* destination);
 
 	void Update(const std::string& input);

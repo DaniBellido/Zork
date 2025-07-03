@@ -6,22 +6,22 @@ std::vector<Door*> pDoors;
 std::vector<Creature*> pEnemy;
 Player* pPlayer;
 
-const std::string RESET = "\033[0m";
-const std::string RED = "\033[31m";
-const std::string GREEN = "\033[32m";
-const std::string YELLOW = "\033[33m";
-const std::string BLUE = "\033[34m";
-const std::string WHITE = "\033[37m";
+//const std::string RESET = "\033[0m";
+//const std::string RED = "\033[31m";
+//const std::string GREEN = "\033[32m";
+//const std::string YELLOW = "\033[33m";
+//const std::string BLUE = "\033[34m";
+//const std::string WHITE = "\033[37m";
 
 Game::Game()
 {
 	isRunning = false;
-	std::cout << "Game Constructor called!\n";
+	//std::cout << "Game Constructor called!\n";
 }
 
 Game::~Game()
 {
-	std::cout << "Game Destructor called!\n";
+	//std::cout << "Game Destructor called!\n";
 }
 
 
@@ -66,9 +66,10 @@ void Game::Setup()
 
 	//TODO: Populate the rooms with creatures
 
-	pEnemy.push_back(new Creature(EntityType::ENEMY,"soldier","a weak soldier.",{stone}, 25, 2, 1, 1));
+	pEnemy.push_back(new Creature(EntityType::ENEMY,"soldier","a weak soldier.",{stone}, 25, 7, 1, 1));
 	
 	pRooms[0]->AddToInventory(pEnemy[0]);
+	pEnemy[0]->location = pRooms[0];
 
 	//Introduction to the adventure
 	pRooms[0]->PrintDescription();
