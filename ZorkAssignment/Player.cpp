@@ -58,6 +58,9 @@ void Player::ParseCommand(const std::string& input)
 	else if (command == "attack") {
 		Attack(argument);
 	}
+	else if (command == "info") {
+		GetInfo();
+	}
 	else 
 	{
 		std::cout << "I don't understand that command.\n";
@@ -73,17 +76,21 @@ void Player::Look(Room* currentRoom)
 void Player::PrintMap() 
 {
 	std::cout << R"(
-             +--------+    +---+----+ +---+----+
-             | Garden |    |Barracks|-|Latrines|
-             +---+----+    +---+----+ +---+----+
-                 |             |
-+----------+ +----------+ +----------+
-|  Stable  |-|  Patio   |-|  Armory  |
-+----------+ +----------+ +----------+
-                  |
-             +----+----+
-             |Cstl Gate|
-             +---------+
+                +--------+    
+                | Chapel |    
+                +---+----+    
+                    | 
+ +-----------+  +--------+    +---+----+ +---+----+
+ |King's Room|--| Garden |    |Barracks|-|Latrines|
+ +---+-------+  +---+----+    +---+----+ +---+----+
+                    |             |
+  +----------+ +----------+ +----------+
+  |  Stable  |-|  Patio   |-|  Armory  |
+  +----------+ +----------+ +----------+
+                    |
+               +----+----+
+               |Cstl Gate|
+               +---------+
 )" << std::endl;
 }
 
@@ -328,11 +335,33 @@ void Player::Attack(const std::string& targetName)
 				if (!enemy->stats.isAlive()) {
 					std::cout << "You have defeated the " << enemy->name << "!\n";
 
-					delete enemy;
+					auto it = std::find(currentRoom->inventory.begin(), currentRoom->inventory.end(), enemy);
+					if (it != currentRoom->inventory.end()) {
+						currentRoom->inventory.erase(it);
+						delete enemy;
+					}
 				}
 				return;
 			}
 		}
 	}
 	std::cout << "There's no such enemy here.\n";
+}
+
+void Player::GetInfo() 
+{
+	std::cout << "\nAvailable commands:\n"
+		<< " - attack + entity name\n"
+		<< " - check  + entity name\n"
+		<< " - drop   + entity name\n"
+		<< " - go     + north || south || east || west\n"
+		<< " - info     display this list\n"
+		<< " - inventory display your inventory\n"
+		<< " - look   display what you can see in a room\n"
+		<< " - map    display a map of the world\n"
+		<< " - open   + entity name\n"
+		<< " - pick   + entity name\n"
+		<< " - stats  display your current stats\n"
+		<< " - store  + entity name (to store items in chest)\n"
+		<< " - take   + entity name (to take items from chest)\n";
 }

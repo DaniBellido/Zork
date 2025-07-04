@@ -48,7 +48,7 @@ void Creature::DropInventory()
 
 void Creature::OnDeath()
 {
-	std::cout << name << " has died.\n";
+	std::cout << name << " falls.\n";
 	DropInventory();
 
 	if (location) {

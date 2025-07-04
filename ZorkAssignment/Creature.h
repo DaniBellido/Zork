@@ -13,12 +13,6 @@ struct Stats {
 class Creature : public Entity
 {
 public:
-	//Atributes inherited from Entity
-	/*type
-	name
-	description
-	inventory*/
-	
 	Stats stats;
 	Room* location;
 	Creature(EntityType t, const std::string& n, const std::string& d, const std::vector<Entity*>& items, int health, int power, int armor, int luck);

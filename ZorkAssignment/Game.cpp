@@ -3,6 +3,7 @@
 
 std::vector<Room*> pRooms;
 std::vector<Door*> pDoors;
+std::vector<Item*> pItems;
 std::vector<Creature*> pEnemy;
 Player* pPlayer;
 
@@ -43,6 +44,8 @@ void Game::Setup()
 	pRooms.push_back(new Room(EntityType::ROOM, "the Armory", "a room filled with weapons.")); // 4
 	pRooms.push_back(new Room(EntityType::ROOM, "the Barracks", "a room filled with beds and clothes.")); // 5
 	pRooms.push_back(new Room(EntityType::ROOM, "the Latrines", "This room stinks so bad!.")); // 6
+	pRooms.push_back(new Room(EntityType::ROOM, "the Chapel", "A religious room filled with ancient ornaments.")); // 7
+	pRooms.push_back(new Room(EntityType::ROOM, "the Kin's Room", "A luxury room covered with gold.")); // 8
 
 	//Connecting the rooms
 	ConnectRooms(pRooms[0], pRooms[1], Direction::NORTH);  // Castle - Patio
@@ -51,38 +54,54 @@ void Game::Setup()
 	ConnectRooms(pRooms[1], pRooms[4], Direction::EAST);   // Patio - Armory
 	ConnectRooms(pRooms[4], pRooms[5], Direction::NORTH);   // Armory - Barracks
 	ConnectRooms(pRooms[5], pRooms[6], Direction::EAST);   // Barracks - Latrines
+	ConnectRooms(pRooms[3], pRooms[7], Direction::NORTH);  // Garden - Chapel
+	ConnectRooms(pRooms[3], pRooms[8], Direction::WEST);  // Garden - King's Room
 
 
 	//Creating Items
-	Item* sword = new Item("sword", "An old rusty sword. Might still be useful.", false, true);
-	Item* stone = new Item("stone", "A tiny stone. Might still be useful.", false, true);
-	Item* chest = new Item("chest", "A wooden chest to store items.", true, false);
-	Item* key = new Item("key", "A golden key with a weird incription. What would it open?", false, true);
-
-	Item* bigChest = new Item("big chest", "A large locked chest. You might need a key.", true, false);
-	bigChest->isLocked = true;
+	pItems.push_back(new Item("knife", "An old rusty knife. It won't slice anything.", false, true)); // 0
+	pItems.push_back(new Item("stone", "A tiny stone. Not very useful.", false, true)); // 1
+	pItems.push_back(new Item("chest", "A wooden chest to store items.", true, false)); // 2
+	pItems.push_back(new Item("sword", "A powerful sword. For the win!", false, true)); // 3 
+	pItems[2]->AddToInventory(pItems[3]); //placing the sword within the chest
+	pItems.push_back(new Item("key", "A golden key with a weird incription. What would it open?", false, true)); // 4
+	pItems.push_back(new Item("big chest", "A large locked chest. You might need a key.", true, false)); // 5
+	pItems[5]->isLocked = true; //locking the big chest
+	pItems.push_back(new Item("coin", "A coin with the King's face.", false, true)); // 6
 
 	//Populate the rooms with items
-	pRooms[0]->AddToInventory(sword);
-	//pRooms[0]->AddToInventory(stone);
-	pRooms[0]->AddToInventory(chest);
-	pRooms[0]->AddToInventory(key);
-	pRooms[0]->AddToInventory(bigChest);
-
+	pRooms[0]->AddToInventory(pItems[0]);
+	pRooms[1]->AddToInventory(pItems[1]);
+	pRooms[4]->AddToInventory(pItems[2]);
+	pRooms[7]->AddToInventory(pItems[5]);
 	
-
-	//TODO: Populate the rooms with creatures
-
-	pEnemy.push_back(new Creature(EntityType::ENEMY,"soldier","a weak soldier.",{stone}, 25, 7, 1, 1));
+	//Creating enemies
+	pEnemy.push_back(new Creature(EntityType::ENEMY,"soldier","a weak soldier.",{}, 20, 7, 1, 1)); //0
+	pEnemy.push_back(new Creature(EntityType::ENEMY, "soldier", "a casual soldier.", {pItems[6]}, 30, 10, 2, 1)); //1
+	pEnemy.push_back(new Creature(EntityType::ENEMY, "soldier", "a weak soldier.", {}, 20, 7, 1, 1)); //2
+	pEnemy.push_back(new Creature(EntityType::ENEMY, "commander", "a high rank soldier. Looks very dangerous!", { pItems[4] }, 100, 18, 5, 1)); //3
+	pEnemy.push_back(new Creature(EntityType::ENEMY, "soldier", "a casual soldier.", {}, 30, 10, 2, 1)); //4
+	pEnemy.push_back(new Creature(EntityType::ENEMY, "soldier", "a strong soldier.", {}, 50, 11, 3, 1)); //5
 	
-	pRooms[0]->AddToInventory(pEnemy[0]);
-	pEnemy[0]->location = pRooms[0];
+	//Populate the rooms with enemies
+	pRooms[1]->AddToInventory(pEnemy[0]); pEnemy[0]->location = pRooms[0];
+	pRooms[4]->AddToInventory(pEnemy[1]); pEnemy[1]->location = pRooms[4];
+	pRooms[5]->AddToInventory(pEnemy[2]); pEnemy[2]->location = pRooms[5];
+	pRooms[5]->AddToInventory(pEnemy[3]); pEnemy[3]->location = pRooms[5];
+	pRooms[8]->AddToInventory(pEnemy[4]); pEnemy[4]->location = pRooms[8];
+	pRooms[7]->AddToInventory(pEnemy[5]); pEnemy[5]->location = pRooms[7];
+
+
 
 	//Introduction to the adventure
+
+	std::cout << "Welcome to the Kingdom of Velmortih. The soldiers of the evil Sir Psycho have looted your village.\n";
+	std::cout << "You have been sent to Sir Psycho's Castle in order to get back your ancient treasure and claim justice!\n.";
+	std::cout << "Type 'info' to see what actions you can take. Sir Psycho's Castle stands in front of you. \n\n";
 	pRooms[0]->PrintDescription();
 
 	//Player Start Point
-	Stats playerStats = { 100, 10, 5, 3 };
+	Stats playerStats = { 100, 25, 5, 3 };
 	pPlayer = new Player("Hero", "The brave adventurer", pRooms[0], playerStats);
 	pPlayer->game = this; 
 	
@@ -181,7 +200,7 @@ void Game::CleanUp()
 
 	
 	for (Creature* enemy : pEnemy)
-		delete enemy;
+		//delete enemy;
 	pEnemy.clear();
 
 

@@ -28,10 +28,12 @@ public:
 	void Take(std::string argument);
 	void Attack(const std::string& targetName);
 	void MoveTo(Room* destination);
+	void GetInfo();
 
 	void Update(const std::string& input);
 	
 	void ParseCommand(const std::string& input);
+	
 
 
 

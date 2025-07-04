@@ -6,7 +6,6 @@ Entity::Entity(EntityType t, const std::string& n, const std::string& d, const s
 
 Entity::~Entity() 
 {
-    std::cout << "Entity Destructor called!\n";
 }
 
 void Entity::AddToInventory(Entity* e) 

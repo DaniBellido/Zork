@@ -8,7 +8,7 @@ public:
 	bool isLocked = false;       
     bool isPortable = true;  
 
-	Item(const std::string& name, const std::string& description, bool container = false, bool portable = true)
+    Item(const std::string& name, const std::string& description, bool container = false, bool portable = true)
 		: Entity(EntityType::ITEM, name, description), isContainer(container), isOpen(true), isLocked(false), isPortable(portable) {}
 
     void Open() {
